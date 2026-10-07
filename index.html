@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Moggi — a statically typed, purely functional language</title>
+<meta name="description" content="Moggi is a statically typed, purely functional, strictly evaluated language that compiles to PHP, the JVM and .NET.">
+<link rel="stylesheet" href="style.css">
+<link rel="icon" type="image/svg+xml" href="logo.svg">
+<link rel="icon" type="image/png" href="icon.png">
+<link rel="apple-touch-icon" href="icon.png">
+</head>
+<body>
+
+<h1><img class="logo" src="logo.svg" alt="" width="44" height="44">Moggi</h1>
+<p class="tagline">
+A statically typed, purely functional, strictly evaluated language that compiles
+to PHP, the JVM and .NET.
+</p>
+
+<div class="nav">
+<a href="https://docs.moggi-lang.org/">Documentation</a> |
+<a href="https://registry.moggi-lang.org/docs/base/0.2.0/index.html">API docs</a> |
+<a href="https://registry.moggi-lang.org/">Packages</a> |
+<a href="https://github.com/moggi-lang/moggi">Source</a> |
+<a href="#download">Download</a>
+</div>
+
+<hr>
+
+<h2>The language</h2>
+
+<p>
+Algebraic data types, GADTs, pattern matching, type classes and explicit-effect
+IO. One source compiles to a PHP <code>.phar</code>, a JVM <code>.jar</code>, a
+.NET <code>.dll</code>, or a native executable — the compiler is written in PHP,
+and every release ships the runtimes it needs.
+</p>
+
+<pre><code>data Shape = Circle Double | Rect Double Double
+  deriving (Show, Eq)
+
+area :: Shape -&gt; Double
+area s = case s of
+  Circle r -&gt; 3.141592653589793 * r * r
+  Rect w h -&gt; w * h
+
+main :: IO ()
+main = do
+  putStrLn (show (area (Circle 1.0)))
+  putStrLn (show (map area [Rect 2.0 3.0, Circle 1.0]))</code></pre>
+
+<pre><code>3.141592653589793
+[6.0, 12.566370614359172]</code></pre>
+
+<h2 id="download">Getting it</h2>
+
+<p>
+Pick your platform and the distribution you want. Unpack the archive and run it:
+there is nothing to install, configure or build.
+</p>
+
+<!--
+  The release is named here and in every link of the "Every archive" table below.
+  The table has to work with JavaScript switched off, so its URLs are literal.
+  `packaging/website.php` rewrites this page from the release tag: the RELEASE
+  constant below, the rows between the `archives:begin`/`archives:end` markers,
+  the archive count, and the default download link and command.
+-->
+<div class="picker" id="picker" hidden>
+  <label for="platform">Platform</label>
+  <select id="platform">
+    <option value="linux-x86_64">Linux (x86_64)</option>
+    <option value="linux-aarch64">Linux (aarch64)</option>
+    <option value="macos-x86_64">macOS (Intel)</option>
+    <option value="macos-aarch64">macOS (Apple silicon)</option>
+    <option value="windows-x86_64">Windows (x86_64)</option>
+  </select>
+
+  <label for="variant">Distribution</label>
+  <select id="variant">
+    <option value="moggi">moggi — everything</option>
+    <option value="moggi-php">moggi-php — PHP</option>
+    <option value="moggi-dotnet">moggi-dotnet — PHP, .NET SDK</option>
+    <option value="moggi-jvm">moggi-jvm — PHP, JDK, GraalVM</option>
+    <option value="moggi-minimal">moggi-minimal — nothing bundled</option>
+  </select>
+</div>
+
+<p class="cta">
+<a id="download-link" href="https://github.com/moggi-lang/moggi/releases/download/0.1.0-alpha/moggi-0.1.0-alpha-linux-x86_64.tar.gz">Download <span id="download-name">moggi-0.1.0-alpha-linux-x86_64.tar.gz</span></a>
+</p>
+
+<pre><code id="download-steps">$ curl -LO https://github.com/moggi-lang/moggi/releases/download/0.1.0-alpha/moggi-0.1.0-alpha-linux-x86_64.tar.gz
+$ tar -xzf moggi-0.1.0-alpha-linux-x86_64.tar.gz
+$ cd moggi &amp;&amp; ./bin/moggi version</code></pre>
+
+<p class="note">
+The picker above needs JavaScript; every archive is listed
+<a href="#archives">below</a> either way. Check the download against <code>SHA256SUMS</code>
+(<code>sha256sum -c SHA256SUMS</code>; <code>shasum -a 256</code> on macOS) — the
+archives are not code-signed yet, and
+<a href="https://docs.moggi-lang.org/quickstart.html">quickstart</a> covers what
+macOS and Windows say about that on first run.
+</p>
+
+<h3>Distributions</h3>
+
+<p>
+They are the same compiler; only <code>runtime/</code> differs. A bundled runtime
+is used in preference to the one on your <code>PATH</code>, and whatever a variant
+does not bundle has to be installed yourself.
+</p>
+
+<table>
+  <tr><th>Distribution</th><th>Bundles</th></tr>
+  <tr><td><code>moggi</code></td><td>PHP, .NET SDK, JDK, GraalVM — everything, including <code>--native</code></td></tr>
+  <tr><td><code>moggi-php</code></td><td>PHP — the PHP backend</td></tr>
+  <tr><td><code>moggi-dotnet</code></td><td>PHP and the .NET SDK</td></tr>
+  <tr><td><code>moggi-jvm</code></td><td>PHP, JDK and GraalVM</td></tr>
+  <tr><td><code>moggi-minimal</code></td><td>nothing — uses the <code>php</code>, <code>javac</code>/<code>java</code> and <code>dotnet</code> on your <code>PATH</code></td></tr>
+</table>
+
+<h3>Every archive</h3>
+
+<details id="archives">
+<summary>All 25 archives</summary>
+
+<p>
+Windows archives are <code>.zip</code>; the rest are <code>.tar.gz</code>.
+</p>
+
+<table>
+  <tr><th>Distribution</th><th>Platform</th><th>Archive</th></tr>
+  <!-- archives:begin -->
+  <tr><td><code>moggi</code></td><td>Linux (x86_64)</td><td><a href="https://github.com/moggi-lang/moggi/releases/download/0.1.0-alpha/moggi-0.1.0-alpha-linux-x86_64.tar.gz">moggi-0.1.0-alpha-linux-x86_64.tar.gz</a></td></tr>
+  <tr><td><code>moggi</code></td><td>Linux (aarch64)</td><td><a href="https://github.com/moggi-lang/moggi/releases/download/0.1.0-alpha/moggi-0.1.0-alpha-linux-aarch64.tar.gz">moggi-0.1.0-alpha-linux-aarch64.tar.gz</a></td></tr>
+  <tr><td><code>moggi</code></td><td>macOS (Intel)</td><td><a href="https://github.com/moggi-lang/moggi/releases/download/0.1.0-alpha/moggi-0.1.0-alpha-macos-x86_64.tar.gz">moggi-0.1.0-alpha-macos-x86_64.tar.gz</a></td></tr>
+  <tr><td><code>moggi</code></td><td>macOS (Apple silicon)</td><td><a href="https://github.com/moggi-lang/moggi/releases/download/0.1.0-alpha/moggi-0.1.0-alpha-macos-aarch64.tar.gz">moggi-0.1.0-alpha-macos-aarch64.tar.gz</a></td></tr>
+  <tr><td><code>moggi</code></td><td>Windows (x86_64)</td><td><a href="https://github.com/moggi-lang/moggi/releases/download/0.1.0-alpha/moggi-0.1.0-alpha-windows-x86_64.zip">moggi-0.1.0-alpha-windows-x86_64.zip</a></td></tr>
+
+  <tr><td><code>moggi-php</code></td><td>Linux (x86_64)</td><td><a href="https://github.com/moggi-lang/moggi/releases/download/0.1.0-alpha/moggi-php-0.1.0-alpha-linux-x86_64.tar.gz">moggi-php-0.1.0-alpha-linux-x86_64.tar.gz</a></td></tr>
+  <tr><td><code>moggi-php</code></td><td>Linux (aarch64)</td><td><a href="https://github.com/moggi-lang/moggi/releases/download/0.1.0-alpha/moggi-php-0.1.0-alpha-linux-aarch64.tar.gz">moggi-php-0.1.0-alpha-linux-aarch64.tar.gz</a></td></tr>
+  <tr><td><code>moggi-php</code></td><td>macOS (Intel)</td><td><a href="https://github.com/moggi-lang/moggi/releases/download/0.1.0-alpha/moggi-php-0.1.0-alpha-macos-x86_64.tar.gz">moggi-php-0.1.0-alpha-macos-x86_64.tar.gz</a></td></tr>
+  <tr><td><code>moggi-php</code></td><td>macOS (Apple silicon)</td><td><a href="https://github.com/moggi-lang/moggi/releases/download/0.1.0-alpha/moggi-php-0.1.0-alpha-macos-aarch64.tar.gz">moggi-php-0.1.0-alpha-macos-aarch64.tar.gz</a></td></tr>
+  <tr><td><code>moggi-php</code></td><td>Windows (x86_64)</td><td><a href="https://github.com/moggi-lang/moggi/releases/download/0.1.0-alpha/moggi-php-0.1.0-alpha-windows-x86_64.zip">moggi-php-0.1.0-alpha-windows-x86_64.zip</a></td></tr>
+
+  <tr><td><code>moggi-dotnet</code></td><td>Linux (x86_64)</td><td><a href="https://github.com/moggi-lang/moggi/releases/download/0.1.0-alpha/moggi-dotnet-0.1.0-alpha-linux-x86_64.tar.gz">moggi-dotnet-0.1.0-alpha-linux-x86_64.tar.gz</a></td></tr>
+  <tr><td><code>moggi-dotnet</code></td><td>Linux (aarch64)</td><td><a href="https://github.com/moggi-lang/moggi/releases/download/0.1.0-alpha/moggi-dotnet-0.1.0-alpha-linux-aarch64.tar.gz">moggi-dotnet-0.1.0-alpha-linux-aarch64.tar.gz</a></td></tr>
+  <tr><td><code>moggi-dotnet</code></td><td>macOS (Intel)</td><td><a href="https://github.com/moggi-lang/moggi/releases/download/0.1.0-alpha/moggi-dotnet-0.1.0-alpha-macos-x86_64.tar.gz">moggi-dotnet-0.1.0-alpha-macos-x86_64.tar.gz</a></td></tr>
+  <tr><td><code>moggi-dotnet</code></td><td>macOS (Apple silicon)</td><td><a href="https://github.com/moggi-lang/moggi/releases/download/0.1.0-alpha/moggi-dotnet-0.1.0-alpha-macos-aarch64.tar.gz">moggi-dotnet-0.1.0-alpha-macos-aarch64.tar.gz</a></td></tr>
+  <tr><td><code>moggi-dotnet</code></td><td>Windows (x86_64)</td><td><a href="https://github.com/moggi-lang/moggi/releases/download/0.1.0-alpha/moggi-dotnet-0.1.0-alpha-windows-x86_64.zip">moggi-dotnet-0.1.0-alpha-windows-x86_64.zip</a></td></tr>
+
+  <tr><td><code>moggi-jvm</code></td><td>Linux (x86_64)</td><td><a href="https://github.com/moggi-lang/moggi/releases/download/0.1.0-alpha/moggi-jvm-0.1.0-alpha-linux-x86_64.tar.gz">moggi-jvm-0.1.0-alpha-linux-x86_64.tar.gz</a></td></tr>
+  <tr><td><code>moggi-jvm</code></td><td>Linux (aarch64)</td><td><a href="https://github.com/moggi-lang/moggi/releases/download/0.1.0-alpha/moggi-jvm-0.1.0-alpha-linux-aarch64.tar.gz">moggi-jvm-0.1.0-alpha-linux-aarch64.tar.gz</a></td></tr>
+  <tr><td><code>moggi-jvm</code></td><td>macOS (Intel)</td><td><a href="https://github.com/moggi-lang/moggi/releases/download/0.1.0-alpha/moggi-jvm-0.1.0-alpha-macos-x86_64.tar.gz">moggi-jvm-0.1.0-alpha-macos-x86_64.tar.gz</a></td></tr>
+  <tr><td><code>moggi-jvm</code></td><td>macOS (Apple silicon)</td><td><a href="https://github.com/moggi-lang/moggi/releases/download/0.1.0-alpha/moggi-jvm-0.1.0-alpha-macos-aarch64.tar.gz">moggi-jvm-0.1.0-alpha-macos-aarch64.tar.gz</a></td></tr>
+  <tr><td><code>moggi-jvm</code></td><td>Windows (x86_64)</td><td><a href="https://github.com/moggi-lang/moggi/releases/download/0.1.0-alpha/moggi-jvm-0.1.0-alpha-windows-x86_64.zip">moggi-jvm-0.1.0-alpha-windows-x86_64.zip</a></td></tr>
+
+  <tr><td><code>moggi-minimal</code></td><td>Linux (x86_64)</td><td><a href="https://github.com/moggi-lang/moggi/releases/download/0.1.0-alpha/moggi-minimal-0.1.0-alpha-linux-x86_64.tar.gz">moggi-minimal-0.1.0-alpha-linux-x86_64.tar.gz</a></td></tr>
+  <tr><td><code>moggi-minimal</code></td><td>Linux (aarch64)</td><td><a href="https://github.com/moggi-lang/moggi/releases/download/0.1.0-alpha/moggi-minimal-0.1.0-alpha-linux-aarch64.tar.gz">moggi-minimal-0.1.0-alpha-linux-aarch64.tar.gz</a></td></tr>
+  <tr><td><code>moggi-minimal</code></td><td>macOS (Intel)</td><td><a href="https://github.com/moggi-lang/moggi/releases/download/0.1.0-alpha/moggi-minimal-0.1.0-alpha-macos-x86_64.tar.gz">moggi-minimal-0.1.0-alpha-macos-x86_64.tar.gz</a></td></tr>
+  <tr><td><code>moggi-minimal</code></td><td>macOS (Apple silicon)</td><td><a href="https://github.com/moggi-lang/moggi/releases/download/0.1.0-alpha/moggi-minimal-0.1.0-alpha-macos-aarch64.tar.gz">moggi-minimal-0.1.0-alpha-macos-aarch64.tar.gz</a></td></tr>
+  <tr><td><code>moggi-minimal</code></td><td>Windows (x86_64)</td><td><a href="https://github.com/moggi-lang/moggi/releases/download/0.1.0-alpha/moggi-minimal-0.1.0-alpha-windows-x86_64.zip">moggi-minimal-0.1.0-alpha-windows-x86_64.zip</a></td></tr>
+  <!-- archives:end -->
+</table>
+</details>
+
+<p class="note">
+Windows on ARM64 gets no distributions: php.net publishes no Windows ARM64 PHP,
+so there is nothing to bundle and nothing for <code>moggi-minimal</code> to fall
+back to. The x86_64 archives run under emulation there. Everything else about the
+release — the checksums, the provenance attestation, how each runtime is pinned —
+is in <a href="https://github.com/moggi-lang/moggi/blob/HEAD/dist/README.md">dist/README.md</a>.
+</p>
+
+<script>
+(function () {
+  var RELEASE = '0.1.0-alpha';
+
+  // `#archives` is inside a collapsed <details>, and a fragment does not open one.
+  var archives = document.getElementById('archives');
+  if (archives && archives.tagName === 'DETAILS') {
+    var openArchives = function () {
+      if (location.hash === '#archives') {
+        archives.open = true;
+      }
+    };
+    window.addEventListener('hashchange', openArchives);
+    openArchives();
+  }
+  var BASE = 'https://github.com/moggi-lang/moggi/releases/download/' + RELEASE + '/';
+
+  var picker = document.getElementById('picker');
+  var platform = document.getElementById('platform');
+  var variant = document.getElementById('variant');
+  var link = document.getElementById('download-link');
+  var name = document.getElementById('download-name');
+  var steps = document.getElementById('download-steps');
+  if (!picker || !platform || !variant || !link || !name || !steps) {
+    return;
+  }
+
+  function render() {
+    var windows = platform.value.indexOf('windows-') === 0;
+    var file = variant.value + '-' + RELEASE + '-' + platform.value + '.' + (windows ? 'zip' : 'tar.gz');
+    var url = BASE + file;
+
+    link.href = url;
+    name.textContent = file;
+    steps.textContent = windows
+      ? '$ curl.exe -LO ' + url
+        + '\n$ Expand-Archive ' + file + ' -DestinationPath .'
+        + '\n$ cd ' + variant.value
+        + '\n$ .\\bin\\moggi.exe version'
+      : '$ curl -LO ' + url
+        + '\n$ tar -xzf ' + file
+        + '\n$ cd ' + variant.value + ' && ./bin/moggi version';
+  }
+
+  // Start on the visitor's own platform. The OS is guessable from the browser and a
+  // wrong guess is one click to fix; the architecture is not, so x86_64 stands in.
+  var ua = (navigator.userAgentData && navigator.userAgentData.platform)
+    || navigator.platform
+    || '';
+  if (/win/i.test(ua)) {
+    platform.value = 'windows-x86_64';
+  } else if (/mac/i.test(ua)) {
+    platform.value = 'macos-x86_64';
+  }
+
+  platform.addEventListener('change', render);
+  variant.addEventListener('change', render);
+  render();
+  picker.hidden = false;
+})();
+</script>
+
+<h2>Where to go next</h2>
+
+<dl>
+  <dt><a href="https://docs.moggi-lang.org/">Documentation</a></dt>
+  <dd>The language, the compiler pipeline, the LSP.</dd>
+
+  <dt><a href="https://registry.moggi-lang.org/docs/base/0.2.0/index.html">Standard library</a></dt>
+  <dd>API docs for the bundled <code>base</code> package: the pages that
+      release published, served by the registry.</dd>
+
+  <dt><a href="https://registry.moggi-lang.org/">Packages</a></dt>
+  <dd>The registry: every published package, its versions, and its signatures.</dd>
+
+  <dt><a href="https://github.com/moggi-lang/moggi">Source</a></dt>
+  <dd>Issues, pull requests, and the CI that builds every runtime.</dd>
+
+  <dt><a href="https://github.com/moggi-lang/moggi/releases">Releases</a></dt>
+  <dd>Compiler archives, per-platform runtime builds, and checksums.</dd>
+</dl>
+
+<h2>Status</h2>
+
+<p>
+Early, and honest about it: the compiler is complete enough to be
+self-hosting-adjacent (it compiles its own standard library and packages a
+distribution), the package registry is being specified, and the language is
+changing.
+</p>
+
+<hr>
+
+<address>
+<a href="https://github.com/moggi-lang/moggi">moggi-lang/moggi</a> —
+GPL-3.0
+</address>
+
+</body>
+</html>
